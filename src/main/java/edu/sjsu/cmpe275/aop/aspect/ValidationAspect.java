@@ -23,7 +23,10 @@ public class ValidationAspect {
 	public void validateNullAdvice(JoinPoint joinPoint) {
 		System.out.printf("Doing validation prior to the execution of the method %s\n", joinPoint.getSignature().getName());
 		for (Object arg: joinPoint.getArgs()) {
-			if (arg == null) throw new IllegalArgumentException("One or more argument is null");
+			if (arg == null) {
+				System.out.printf("throw\n");
+				throw new IllegalArgumentException("One or more argument is null");
+			}
 		}
 	}
 

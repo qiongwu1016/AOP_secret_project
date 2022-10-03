@@ -24,7 +24,7 @@ public class App {
             secretService.shareSecret("Bob", secret, "Freya");
             secretService.shareSecret("Bob", secret, "Tom");
             secretService.shareSecret("Alice", secret, "Freya");
-            secretService.shareSecret("Qiong", secret1, "Jasper");
+            secretService.shareSecret("Qiong", secret1, "Ping");
             secretService.shareSecret("Bob", secret, "Jasper");
             secretService.unshareSecret("Alice", secret, "Jasper");
             UUID secret2 = secretService.createSecret("Freya", "I'm a little girl");

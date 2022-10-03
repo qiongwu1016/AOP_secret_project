@@ -36,6 +36,7 @@ public class SecretServiceImpl implements SecretService {
 	public void shareSecret(String userId, UUID secretId, String targetUserId)
 			throws IOException, IllegalArgumentException, NotAuthorizedException {
 		System.out.printf("User %s shares secret: %s\n", userId, secretId);
+//		throw new IOException("Fake IOException.");
 	}
 
 	@Override

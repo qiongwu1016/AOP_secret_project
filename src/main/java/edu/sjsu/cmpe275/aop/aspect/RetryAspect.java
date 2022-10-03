@@ -5,6 +5,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
 import org.aspectj.lang.annotation.Around;
 
+import java.io.IOException;
+
 @Aspect
 @Order(1)
 public class RetryAspect {
@@ -14,16 +16,20 @@ public class RetryAspect {
      */
 
 	@Around("execution(public void edu.sjsu.cmpe275.aop.SecretService.*(..))")
-	public void dummyAdvice(ProceedingJoinPoint joinPoint) {
-		System.out.printf("Retry aspect prior to the executuion of the metohd %s\n", joinPoint.getSignature().getName());
+	public void dummyAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+		System.out.printf("Retry aspect prior to the execution of the metohd %s\n", joinPoint.getSignature().getName());
 		Object result = null;
-		try {
-			result = joinPoint.proceed();
-			System.out.printf("Finished the executuion of the metohd %s with result %s\n", joinPoint.getSignature().getName(), result);
-		} catch (Throwable e) {
-			e.printStackTrace();
-			System.out.printf("Aborted the executuion of the metohd %s\n", joinPoint.getSignature().getName());
-		}
+		int numErrors = 0;
+		do {
+			try {
+				result = joinPoint.proceed();
+				System.out.printf("Finished the execution of the metohd %s with result %s\n", joinPoint.getSignature().getName(), result);
+			} catch (IOException e) {
+				//e.printStackTrace();
+				numErrors = numErrors + 1;
+				System.out.printf("IO Exception in method %s, retry #%d\n", joinPoint.getSignature().getName(), numErrors);
+			}
+		} while (numErrors > 0 && numErrors < 3);
 	}
 
 }

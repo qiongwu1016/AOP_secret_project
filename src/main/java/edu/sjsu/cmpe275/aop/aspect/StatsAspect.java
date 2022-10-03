@@ -39,7 +39,7 @@ public class StatsAspect {
 		}
 	}
 
-	@After("execution(public void edu.sjsu.cmpe275.aop.SecretService.shareSecret(..))")
+	@AfterReturning("execution(public void edu.sjsu.cmpe275.aop.SecretService.shareSecret(..))")
 	public void afterShareAdvice(JoinPoint joinPoint){
 		System.out.printf("Doing stats After the executuion of the metohd %s\n", joinPoint.getSignature().getName());
 		String fromUser = (String)joinPoint.getArgs()[0];
